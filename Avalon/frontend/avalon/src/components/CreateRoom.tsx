@@ -10,7 +10,7 @@ export default function CreateRoom() {
   const [err, setErr] = useState<string>('');
 
   useEffect(() => {
-    api.get('/create/room')
+    api.get('/games/avalon')
     .then(res => { setId(res.data.id); setErr('') })
     .catch(err => { setErr(err); setId('') });
   }, []);

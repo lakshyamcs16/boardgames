@@ -9,6 +9,10 @@ export default class Avalon implements IGame {
     playersInfo: string = '5-10';
     players: Array<User>;
 
+    constructor() {
+        this.players = new Array<User>();
+    }
+
     getName(): string {
         return this.name;
     }

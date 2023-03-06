@@ -8,24 +8,29 @@ import { makeid } from "../utilities/utils";
 const app = express();
 const router = express.Router();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3001",
+  },
+});
 let room = null;
 
 router.get("/games/:game", (req, res) => {
   const gameName = req.params.game;
-  
+
   const game = games[gameName];
-  
+
   const id = makeid(4);
   room = new Room(game);
   room.create(id);
   res.status(200).send({
-    id
+    id,
   });
 });
 
 io.on("connection", (socket) => {
-  socket.on("join", ({ username, roomid }, callback) => {
+  socket.on("join", ({ username, roomid }, callback) => {        
+    if (!room) return;
     const res = room.join(username, roomid, socket.id);
 
     if ("message" in res) {
@@ -47,4 +52,5 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {});
 });
 
+server.listen(3000, () => console.log("Socket connection @ 3000"));
 export default router;
