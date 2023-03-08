@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSocket } from "../providers/sockets/SocketProvider";
 
 export default function Join({ id }: { id: string }) {
   const [socket] = useSocket();
+  const { game } = useParams();
   const navigate = useNavigate();
   const [name, setName] = useState<string>("");
   const [isConnected, setIsConnected] = useState(false);
@@ -12,10 +13,14 @@ export default function Join({ id }: { id: string }) {
     socket.on("connect", () => {
       console.log("connected!");
     });
+
+    socket.on("message", (message) => {
+      console.log(message);
+    })
   }, []);
 
   const handleJoinRoom = async () => {
-    socket.emit("join", { username: name, roomid: id }, (error: Error) => {
+    socket.emit("join", { username: name, roomid: id, gameName: game }, (error: Error) => {
       if (error) return error;
     });
   };
