@@ -5,5 +5,6 @@ export default interface IGame {
     getInfo: () => string;
     getTags: () => Array<string>;
     getPlayersInfo: () => string;
-    addPlayer: (username: string, socketid: string) => IGame
+    addPlayer: (username: string, socketid: string) => IGame;
+    getPlayers: () => Array<User>;
 }

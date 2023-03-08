@@ -1,10 +1,13 @@
-import './App.css';
-import AppRouter from './router';
+import "./App.css";
+import SocketProvider from "./providers/sockets/SocketProvider";
+import AppRouter from "./router";
 
-function App(){
+function App() {
   return (
     <div className="App">
-      <AppRouter />
+      <SocketProvider>
+        <AppRouter />
+      </SocketProvider>
     </div>
   );
 }

@@ -1,0 +1,30 @@
+.card-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 300px;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.card-wrapper .desc {
+    font-size: 0.6em;
+    text-align: justify;
+}
+
+.card-wrapper .tags {
+    font-size: 0.7em;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.card-wrapper .tags span {
+    padding: 0.2em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.card-wrapper .players {
+    font-size: 0.7em;
+}

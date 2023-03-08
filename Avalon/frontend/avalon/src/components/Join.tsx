@@ -1,33 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import io from "socket.io-client";
-import api from "../api";
-
-const socket = io("http://localhost:3000");
+import { useSocket } from "../providers/sockets/SocketProvider";
 
 export default function Join({ id }: { id: string }) {
+  const [socket] = useSocket();
   const navigate = useNavigate();
   const [name, setName] = useState<string>("");
-  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     socket.on("connect", () => {
-      setIsConnected(true);
+      console.log("connected!");
     });
-
-    socket.on("disconnect", () => {
-      setIsConnected(false);
-    });
-
-    return () => {
-      socket.off("connect");
-      socket.off("disconnect");
-      socket.off("pong");
-    };
   }, []);
 
   const handleJoinRoom = async () => {
-    socket.emit("join", { username: "lax", roomid: id }, (error: Error) => {
+    socket.emit("join", { username: name, roomid: id }, (error: Error) => {
       if (error) return error;
     });
   };

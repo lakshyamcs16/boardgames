@@ -29,6 +29,10 @@ export default class Avalon implements IGame {
         return this.playersInfo;
     }
 
+    getPlayers(): Array<User> {
+        return this.players;
+    }
+
     addPlayer(username, socketid): Avalon {
         const user = new User(username, socketid);
         this.players.push(user);

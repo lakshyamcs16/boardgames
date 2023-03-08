@@ -40,11 +40,14 @@ export default class Rooms {
             message: 'Room does not exist'
         };
 
-        this.rooms.set(roomid, this.game.addPlayer(username, socketid));
+        const game = this.game.addPlayer(username, socketid);
+        const players = game.getPlayers();
+        this.rooms.set(roomid, game);
         return {
             id: socketid,
             username,
-            room: roomid
+            room: roomid,
+            players
         };
     }
 }

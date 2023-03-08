@@ -29,7 +29,9 @@ router.get("/games/:game", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  socket.on("join", ({ username, roomid }, callback) => {        
+  socket.on("join", ({ username, roomid }, callback) => {
+    console.log("Joined: ", username);
+    
     if (!room) return;
     const res = room.join(username, roomid, socket.id);
 
@@ -39,11 +41,10 @@ io.on("connection", (socket) => {
 
     socket.join(res.room);
 
-    socket.emit("message", "Hey");
+    socket.emit("message", res);
     socket.broadcast
       .to(res.room)
       .emit("message", `${res.username} has joined!`);
-    io.to(res.room).emit("gameData", {});
     callback();
   });
 
