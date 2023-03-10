@@ -11,8 +11,13 @@ export default class Rooms {
 
     addUser(username: string, socketid: string): User {
         const user = new User(username, socketid);
-        this.players.push(user);
+        this.players = [...this.players, user];
         return user;
+    }
+
+    removeUser(socketid: string): Array<User> {
+        this.players = this.players.filter(player => player.socketid !== socketid);
+        return this.players;
     }
 
     getPlayers(): Array<User> {

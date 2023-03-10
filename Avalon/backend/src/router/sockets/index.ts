@@ -1,27 +1,30 @@
 import games from "../../init/pack";
+import { fetchRoom, notifyPlayers } from "./utils";
 
 export const callback = (socket) => {
   socket.on("join", ({ username, roomid, gameName }, callback) => {
-    const game = games[gameName];
-    if (!game) return;
-
-    const room = game.getRoom(roomid);
+    const room = fetchRoom(games, gameName, roomid);
     const res = room.addUser(username, socket.id);
 
     if ("message" in res) {
       return callback(res.message);
     }
 
-    const players = room.getPlayers();
-    socket.join(roomid);
-    socket.emit("message", players);
-    socket.broadcast
-      .to(roomid)
-      .emit("message", players);
-    callback();
+   notifyPlayers(room, roomid, socket, callback);
   });
 
   socket.on("sendMessage", (message, callback) => {});
 
-  socket.on("disconnect", () => {});
+  socket.on("disconnect", ({ roomid, gameName }, callback) => {
+    const room = fetchRoom(games, gameName, roomid);
+    if (!room) return;
+    
+    const res = room.removeUser(socket.id);
+
+    if ("message" in res) {
+      return callback(res.message);
+    }
+
+   notifyPlayers(room, roomid, socket, callback);
+  });
 };

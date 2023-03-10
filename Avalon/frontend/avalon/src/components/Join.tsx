@@ -20,7 +20,8 @@ export default function Join({ id }: { id: string }) {
     if (users) {
       navigate(`/games/${game}/welcome`, {
         state: {
-          message: users
+          message: users,
+          id
         }
       });
     }
@@ -39,8 +40,6 @@ export default function Join({ id }: { id: string }) {
   socket.on("message", (message) => {
     setUsers(message);
   });
-
-  console.log(users);
 
   return (
     <div>
