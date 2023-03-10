@@ -17,7 +17,7 @@ export const callback = (socket) => {
     socket.emit("message", players);
     socket.broadcast
       .to(roomid)
-      .emit("message", `${res.username} has joined!`);
+      .emit("message", players);
     callback();
   });
 

@@ -15,7 +15,7 @@ function AppRouter() {
         <Route path="/games/:game" element={<Main />} />
         <Route path="/games/:game/create" element={<CreateRoom />} />
         <Route path="/games/:game/join" element={<JoinRoom />} />
-        <Route path="/welcome" element={<Welcome />} />
+        <Route path="/games/:game/welcome" element={<Welcome />} />
       </Routes>
     </Router>
   );
