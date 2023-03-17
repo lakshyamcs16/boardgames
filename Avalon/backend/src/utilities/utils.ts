@@ -9,3 +9,11 @@ export function makeid(length) {
     }
     return result;
 }
+
+export function generateRandomArray(length): Array<number> {
+  return [];
+}
+
+export function numberToRoleMapping(roles: Array<Number>): Array<any> { 
+  return [];
+}

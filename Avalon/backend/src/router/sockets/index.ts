@@ -2,9 +2,11 @@ import games from "../../init/pack";
 import { fetchRoom, notifyPlayers } from "./utils";
 
 export const callback = (socket) => {
-  socket.on("join", ({ username, roomid, gameName }, callback) => {
+  socket.on("join", ({ username, roomid, gameName, isMaster }, callback) => {    
     const room = fetchRoom(games, gameName, roomid);
-    const res = room.addUser(username, socket.id);
+    console.log(room);
+    
+    const res = room.addUser(username, socket.id, isMaster);
 
     if ("message" in res) {
       return callback(res.message);
@@ -13,7 +15,13 @@ export const callback = (socket) => {
    notifyPlayers(room, roomid, socket, callback);
   });
 
-  socket.on("sendMessage", (message, callback) => {});
+  socket.on("begin", ({ roomid, gameName }, callback) => {    
+    const game = games[gameName];
+    const playersInfo = game.begin(roomid);
+    playersInfo.forEach(playerInfo => {
+      socket.to(playerInfo.socketid).emit("begin", playerInfo);
+    });
+  });
 
   socket.on("disconnect", ({ roomid, gameName }, callback) => {
     const room = fetchRoom(games, gameName, roomid);

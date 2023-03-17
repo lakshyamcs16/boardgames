@@ -48,14 +48,14 @@ export default class Avalon implements IGame {
     return id;
   }
 
-  join(username: string, roomid: string, socketid): IError | IRoom {
+  join(username: string, roomid: string, socketid, isMaster = false): IError | IRoom {
     if (!this.rooms.has(roomid))
       return {
         message: "Room does not exist",
       };
 
     const room = this.rooms.get(roomid);
-    const game = room.addUser(username, socketid);
+    const game = room.addUser(username, socketid, isMaster);
     const players = room.getPlayers();
 
     return {
@@ -64,5 +64,11 @@ export default class Avalon implements IGame {
       room: roomid,
       players,
     };
+  }
+
+  begin(roomid): Array<any> {
+    const room = this.rooms.get(roomid);
+    const playersInfo = room.beginGame();
+    return playersInfo;
   }
 }

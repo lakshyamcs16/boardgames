@@ -1,7 +1,6 @@
 import React from "react";
 import { socket, SocketContext } from "./Context";
 import { useContext } from "react";
-import { io } from "socket.io-client";
 
 type Props = {
     children: JSX.Element;

@@ -4,4 +4,5 @@ export default interface IGame {
     getInfo: () => string;
     getTags: () => Array<string>;
     getPlayersInfo: () => string;
+    begin: (roomid: string) => Array<any>;
 }

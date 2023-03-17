@@ -16,9 +16,10 @@ export default function CreateRoom() {
   }, []);
 
   if(!id) return <div>Loading...</div>;
-
+  if(err) return <div>{err}</div>;
+  
   return <div>
     ID: {id}
-    <Join id={id} />
+    <Join id={id} isMaster />
   </div>;
 }
